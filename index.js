@@ -62,15 +62,11 @@ client.connect(err => {
      
 
     app.post('/addADoctor',(req,res)=>{
-    //     const file =req.files.file
-    //    // console.log(file)
-    //     const name =req.body.name
-    //     const email =req.body.email
-    //     console.log(file,name,email)
         const file = req.files.file;
         const name = req.body.name;
         const email = req.body.email;
         const phone = req.body.phone;
+
         const newImg = file.data;
         const encImg = newImg.toString('base64');
 
@@ -79,17 +75,6 @@ client.connect(err => {
             size: file.size,
             img: Buffer.from(encImg, 'base64')
         };
-
-      
-          file.mv(`${__dirname}/doctors/${file.name}`,err =>{
-           
-           /*  if(err){
-                console.log(err) 
-                return res.status(500).send('image upload fail')
-            } */
-            return res.send({name:file.name,path:`/${file.name}`})
-        }) 
- 
         doctorCollection.insertOne({ name, email,phone,image })
         .then(result => {
             res.send(result.insertedCount > 0);
